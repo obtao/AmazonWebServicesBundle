@@ -1,0 +1,24 @@
+{
+    "name":         "obtao/amazon-webservices-bundle",
+    "description":  "A Symfony2 Bundle for interfacing with Amazon Web Services (AWS)",
+    "keywords":     ["amazon", "aws", "web services"],
+    "license":      "BSD",
+    "authors": [
+        {
+            "name":   "Mark Badolato",
+            "email":  "mbadolato@cybernox.com"
+        },
+        {
+            "name":   "Grégory Quatannens",
+            "email":  "gregory@Obtao.com"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.*",
+        "aws/aws-sdk-php": "~3.2"
+    },
+    "autoload": {
+        "psr-0": { "Obtao\\AmazonWebServicesBundle": "" }
+    },
+    "target-dir": "Obtao/AmazonWebServicesBundle"
+}
