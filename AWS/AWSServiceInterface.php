@@ -7,10 +7,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Obtao\AmazonWebServicesBundle;
+namespace Obtao\AmazonWebServicesBundle\AWS;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class ObtaoAmazonWebServicesBundle extends Bundle
+interface AWSServiceInterface
 {
+    // nothing for the moment
 }

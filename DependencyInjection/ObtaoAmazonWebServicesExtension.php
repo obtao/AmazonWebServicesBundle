@@ -34,10 +34,10 @@ class ObtaoAmazonWebServicesExtension extends Extension
         $loader->load('services.xml');
 
         foreach ($config as $key => $value) {
-            $container->setParameter('Obtao_amazon_web_services.' . $key, $value);
+            $container->setParameter('obtao_amazon_web_services.' . $key, $value);
         }
 
-        $factory = $container->getDefinition('aws_factory');
+        $factory = $container->getDefinition('obtao.aws_factory');
         $factory->addArgument($config);
     }
 }

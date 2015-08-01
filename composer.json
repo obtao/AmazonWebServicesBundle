@@ -10,12 +10,12 @@
         },
         {
             "name":   "Grégory Quatannens",
-            "email":  "gregory@Obtao.com"
+            "email":  "gregory@obtao.com"
         }
     ],
     "require": {
         "symfony/framework-bundle": "2.*",
-        "aws/aws-sdk-php": "~3.2"
+        "aws/aws-sdk-php": "*"
     },
     "autoload": {
         "psr-0": { "Obtao\\AmazonWebServicesBundle": "" }

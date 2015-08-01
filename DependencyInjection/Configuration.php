@@ -25,28 +25,46 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder    = new TreeBuilder();
-        $rootNode       = $treeBuilder->root('Obtao_amazon_web_services');
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('obtao_amazon_web_services');
 
         $rootNode
             ->children()
-                ->scalarNode('key')->isRequired()->end()
-                ->scalarNode('secret')->isRequired()->end()
-                ->scalarNode('account_id')->defaultValue(null)->end()
-                ->scalarNode('canonical_id')->defaultValue(null)->end()
-                ->scalarNode('canonical_name')->defaultValue(null)->end()
-                ->scalarNode('mfa_serial')->defaultValue(null)->end()
-                ->scalarNode('cloudfront_keypair')->defaultValue(null)->end()
-                ->scalarNode('cloudfront_pem')->defaultValue(null)->end()
-                ->scalarNode('default_cache_config')->defaultValue(null)->end()
+                ->booleanNode('certificate_authority')
+                    ->defaultFalse()
+                ->end()
+                ->scalarNode('credentials')
+                    ->defaultValue(null)
+                ->end()
+                ->scalarNode('default_cache_config')
+                    ->defaultValue(null)
+                ->end()
+                ->booleanNode('disable_auto_config')
+                    ->defaultFalse()
+                ->end()
                 ->arrayNode('enable_extensions')
                     ->defaultValue(array())
                     ->prototype('scalar')
                     ->end()
                 ->end()
-                ->scalarNode('sdk_path')->defaultValue('%kernel.root_dir%/../vendor/amazonwebservices/aws-sdk-for-php/sdk.class.php')->end()
-                ->booleanNode('certificate_authority')->defaultFalse()->end()
-                ->booleanNode('disable_auto_config')->defaultFalse()->end()
+                ->scalarNode('key')
+                    ->isRequired()
+                ->end()
+                ->scalarNode('region')
+                    ->isRequired()
+                ->end()
+                ->scalarNode('sdk_path')
+                    ->defaultValue('%kernel.root_dir%/../vendor/amazonwebservices/aws-sdk-for-php/sdk.class.php')
+                ->end()
+                ->scalarNode('secret')
+                    ->isRequired()
+                ->end()
+                ->scalarNode('token')
+                    ->defaultValue(null)
+                ->end()
+                ->scalarNode('version')
+                    ->defaultValue('latest')
+                ->end()
             ->end();
 
         return $treeBuilder;

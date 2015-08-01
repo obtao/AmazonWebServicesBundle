@@ -1,30 +1,114 @@
-Amazon Web Services Bundle
-==========================
+# Amazon Web Services Bundle #
 
-Notice
-======
-This bundle is no longer being maintained. It is still usable with the 1.x version of AWS SDK, however no changes or bugfixes are going in. If someone is interested in taking over this bundle, please contact me and I'd be happy to transfer it to you.
-
-[![Latest Stable Version](https://poser.pugx.org/Obtao/amazon-webservices-bundle/v/stable.png)](https://packagist.org/packages/Obtao/amazon-webservices-bundle)
-[![Total Downloads](https://poser.pugx.org/Obtao/amazon-webservices-bundle/downloads.png)](https://packagist.org/packages/Obtao/amazon-webservices-bundle)
-
-Overview
+## Overview ##
 --------
 This is a Symfony2 Bundle for interfacing with Amazon Web Services (AWS).
 
-This bundle uses the [AWS SDK for PHP](http://github.com/amazonwebservices/aws-sdk-for-php) by loading the SDK, and enabling you to instantiate the SDK's various web service objects, passing them back to you for direct use in your Symfony2 application..
+This bundle uses the [AWS SDK for PHP](http://docs.aws.amazon.com/AWSSDKforPHP/latest/) by loading the SDK, and enabling you to instantiate the SDK's various web service objects, passing them back to you for direct use in your Symfony2 application..
 
-For installation, configuration, and usage details, please see [`Resources/doc/README.md`](https://github.com/Obtao/AmazonWebServicesBundle/blob/master/Resources/doc/README.md)
+## Installation ##
 
-Changelog
----------
-PR#15 submitted by @Fran6co requires a type chnage to the enable_extensions parameter in config.yml. See step 5b of [Resources/doc/README.md`](https://github.com/Obtao/AmazonWebServicesBundle/blob/master/Resources/doc/README.md) for the new format.
+Add this line to your `composer.json` file:
+```json
+"require": {
+    ...
+    "obtao/amazon-webservices-bundle": "*@stable"
+}
+```
 
-Example Use Cases
------------------
-1. Connect to, and manipulate, any of the available Amazon Web Services, such as EC2, SQS, CloudFront, S3, etc.
+Then run `composer update`.
 
-2. Utilize Amazon S3 and CloudFront as a Content Delivery Network (CDN) for a Symfony 2 application. Please see the information, graciously provided by [adurieux](https://github.com/adurieux), in [`Resources/doc/cdn.md`](https://github.com/Obtao/AmazonWebServicesBundle/blob/master/Resources/doc/cdn.md).
 
-3. Score dates with Supermodels (This feature not yet implemented)
+Then, add AmazonWebServicesBundle to your application kernel:
 
+```php
+<?php
+
+// app/AppKernel.php
+public function registerBundles()
+{
+    return array(
+        // ...
+        new Obtao\AmazonWebServicesBundle\ObtaoAmazonWebServicesBundle(),
+        // ...
+    );
+}
+```
+
+## Configuration ##
+
+You can add the following default configuration to the config.yml file :
+```yml
+// app/config/config.yml
+# Amazon Web Services Configuration
+obtao_amazon_web_services:
+    key:                        YOUR_KEY
+    secret:                     YOUR_SECRET
+    region:                     YOUR_REGION
+```
+
+## Usage ##
+
+Once installed, you simply need to request the appropriate service for the Amazon Web Service object you wish to use. The returned object will then allow you full access the the API for the requested service.
+
+**Please see the [AWS SDK for PHP documentation](http://docs.amazonwebservices.com/AWSSDKforPHP/latest/) for a list of each service's API calls.**
+
+In this example, we get an AmazonSQS object from the AWS SDK for PHP library by requesting the ```aws_sqs``` service. We then use that object to retrieve a message from an existing Amazon SQS queue.
+
+```php
+<?php
+
+// in a controller
+public function someAction()
+{
+    $awsSQS = $this->container->get('obtao.aws_sqs');
+
+    // create a queue (or get an existing one)
+    $awsSQS->createQueue(array(
+        'QueueName' => $queueName,
+    ));
+    // or this if you're sure the queue exists
+    $awsSQS->getQueueUrl(array(
+        'QueueName' => $queueName,
+    ));
+
+
+    // create messages in the given queue
+    $response = $awsSQS->getQueueUrl(array(
+        'QueueName' => $queueName,
+    ));
+    $awsSQS->sendMessage(array(
+        'QueueUrl' => $response->get('QueueUrl'),
+        // MessageBody is required
+        'MessageBody' => $message,
+    ));
+
+    // read messages
+    $response = $awsSQS->getQueueUrl(array(
+        'QueueName' => $queueName,
+    ));
+    $awsSQS->receiveMessage(array(
+        'QueueUrl' => $response->get('QueueUrl'),
+        'MaxNumberOfMessages' => 10,
+    ));
+}
+```
+
+### Available Services ###
+
+The following services are available, each returning an object allowing access to the respective Amazon Web Service
+
+<table>
+  <tr>
+    <th>Symfony Service Name</th>
+    <th>AWS SDK for PHP Object</th>
+    <th>Description</th>
+  </tr>
+
+  <tr>
+    <td>obtao.aws_sqs</td>
+    <td><a href="http://docs.aws.amazon.com/AWSSDKforPHP/latest/#i=AmazonSQS">AmazonSQS</a></td>
+    <td>Amazon Simple Queue Service</td>
+  </tr>
+
+</table>
