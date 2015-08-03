@@ -11,7 +11,7 @@ This bundle uses the [AWS SDK for PHP](http://docs.aws.amazon.com/AWSSDKforPHP/l
 Add this line to your `composer.json` file:
 ```json
 "require": {
-    ...
+    ...,
     "obtao/amazon-webservices-bundle": "*@stable"
 }
 ```
@@ -39,8 +39,7 @@ public function registerBundles()
 
 You can add the following default configuration to the config.yml file :
 ```yml
-// app/config/config.yml
-# Amazon Web Services Configuration
+# app/config/config.yml
 obtao_amazon_web_services:
     key:                        YOUR_KEY
     secret:                     YOUR_SECRET
@@ -53,7 +52,7 @@ Once installed, you simply need to request the appropriate service for the Amazo
 
 **Please see the [AWS SDK for PHP documentation](http://docs.amazonwebservices.com/AWSSDKforPHP/latest/) for a list of each service's API calls.**
 
-In this example, we get an AmazonSQS object from the AWS SDK for PHP library by requesting the ```aws_sqs``` service. We then use that object to retrieve a message from an existing Amazon SQS queue.
+In this example, we get an AmazonSQS object from the AWS SDK for PHP library by requesting the ```obtao.aws_sqs``` service. We then use that object to retrieve a message from an existing Amazon SQS queue.
 
 ```php
 <?php
@@ -61,36 +60,10 @@ In this example, we get an AmazonSQS object from the AWS SDK for PHP library by 
 // in a controller
 public function someAction()
 {
+    // get the Simple Queue Service
     $awsSQS = $this->container->get('obtao.aws_sqs');
 
-    // create a queue (or get an existing one)
-    $awsSQS->createQueue(array(
-        'QueueName' => $queueName,
-    ));
-    // or this if you're sure the queue exists
-    $awsSQS->getQueueUrl(array(
-        'QueueName' => $queueName,
-    ));
-
-
-    // create messages in the given queue
-    $response = $awsSQS->getQueueUrl(array(
-        'QueueName' => $queueName,
-    ));
-    $awsSQS->sendMessage(array(
-        'QueueUrl' => $response->get('QueueUrl'),
-        // MessageBody is required
-        'MessageBody' => $message,
-    ));
-
-    // read messages
-    $response = $awsSQS->getQueueUrl(array(
-        'QueueName' => $queueName,
-    ));
-    $awsSQS->receiveMessage(array(
-        'QueueUrl' => $response->get('QueueUrl'),
-        'MaxNumberOfMessages' => 10,
-    ));
+    // do something
 }
 ```
 
@@ -112,3 +85,9 @@ The following services are available, each returning an object allowing access t
   </tr>
 
 </table>
+
+
+### More documentation ###
+
+- [Configuration reference](Resources/doc/reference.md)
+- [Examples with SQS](Resources/doc/sqs.md)

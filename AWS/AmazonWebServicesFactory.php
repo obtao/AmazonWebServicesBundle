@@ -56,10 +56,6 @@ class AmazonWebServicesFactory
      */
     public function __construct(array $config)
     {
-        if ($config['disable_auto_config'] && (! defined('AWS_DISABLE_CONFIG_AUTO_DISCOVERY'))) {
-            define('AWS_DISABLE_CONFIG_AUTO_DISCOVERY', TRUE);
-        }
-
         if (!empty($config['sdk_path']) && file_exists($config['sdk_path'])) {
             require_once $config['sdk_path'];
         }
