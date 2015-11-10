@@ -84,6 +84,12 @@ The following services are available, each returning an object allowing access t
     <td>Amazon Simple Queue Service</td>
   </tr>
 
+  <tr>
+    <td>obtao.aws_s3</td>
+    <td><a href="http://docs.aws.amazon.com/AWSSDKforPHP/latest/#i=AmazonS3">AmazonS3</a></td>
+    <td>Amazon Simple Storage Service</td>
+  </tr>
+
 </table>
 
 

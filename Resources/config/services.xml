@@ -15,6 +15,10 @@
             <factory service="obtao.aws_factory" method="get"/>
             <argument>SQS</argument>
         </service>
+        <service id="obtao.aws_s3" class="Obtao\AmazonWebServicesBundle\AWS\AWSServiceInterface">
+            <factory service="obtao.aws_factory" method="get"/>
+            <argument>S3</argument>
+        </service>
     </services>
 
 </container>

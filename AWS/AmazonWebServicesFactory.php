@@ -47,6 +47,7 @@ class AmazonWebServicesFactory
      */
     private $validServiceTypes = array(
         'SQS' => 'Aws\Sqs\SqsClient',
+        'S3'  => 'Aws\S3\S3Client',
     );
 
     /**
